@@ -13,6 +13,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.time.Duration;
 import java.util.List;
 
 @Configuration
@@ -37,34 +38,36 @@ public class SecurityConfig {
 
                 /* Règles d'accès */
                 .authorizeHttpRequests(auth -> auth
-                        // Preflight
+                        // Preflight (navigateur)
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // Auth publique
+                        // Auth publique (login, otp…)
                         .requestMatchers("/auth/**").permitAll()
 
-                        // H2 console (dev)
+                        // H2 console (mode dev uniquement)
                         .requestMatchers("/h2-console/**").permitAll()
 
-                        // Offres publiques (si souhaité)
+                        .requestMatchers("/actuator/**").permitAll()
+
+                        // Offres publiques
                         .requestMatchers(HttpMethod.GET, "/api/offers").permitAll()
 
-                        // Image PNG du QR : publique (intégration <img src=...> côté front)
+                        // Image PNG du QR
                         .requestMatchers(HttpMethod.GET, "/api/tickets/*/qr.png").permitAll()
 
-                        // Vérification d'un ticket (scan) : publique
+                        // Vérification d’un ticket (scan)
                         .requestMatchers(HttpMethod.GET, "/api/tickets/verify").permitAll()
 
-                        // Consommation d'un ticket : RÉSERVÉ au staff/admin (durcissement)
-                        .requestMatchers(HttpMethod.POST, "/api/tickets/consume").hasAnyRole("STAFF","ADMIN")
+                        // Consommation d’un ticket : réservé AGENT ou ADMIN
+                        .requestMatchers(HttpMethod.POST, "/api/tickets/consume").hasAnyRole("AGENT", "ADMIN")
 
                         // Espace admin : réservé ADMIN
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
-                        // Tout le reste des APIs nécessite un JWT
+                        // Toute autre API nécessite un JWT
                         .requestMatchers("/api/**").authenticated()
 
-                        // Le reste (fichiers statiques, etc.)
+                        // Le reste
                         .anyRequest().permitAll()
                 )
 
@@ -77,16 +80,20 @@ public class SecurityConfig {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        var cors = new CorsConfiguration();
+        CorsConfiguration cors = new CorsConfiguration();
+
         cors.setAllowedOrigins(List.of(
                 "http://localhost:5173",
                 "http://127.0.0.1:5173"
+                // "https://ton-front.vercel.app"
         ));
-        cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cors.setAllowedHeaders(List.of("Content-Type", "Authorization"));
         cors.setAllowCredentials(true);
+        cors.setMaxAge(Duration.ofHours(1));
 
-        var source = new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", cors);
         return source;
     }
