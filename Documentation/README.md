@@ -10,6 +10,7 @@ Ce dossier contient l’ensemble des éléments de **documentation technique et 
 |----------|--------------|
 | `MCD_Billetterie.drawio` | Schéma du **Modèle Conceptuel de Données (MCD)** au format éditable. |
 | `MCD_Billetterie.png` | Export du MCD au format image pour consultation rapide. |
+| `Bloc3.pdf` | Développement d’une solution digitale avec Java. |
 
 ---
 
