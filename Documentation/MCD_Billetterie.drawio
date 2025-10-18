@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2025-10-18T00:00:00.000Z" agent="ChatGPT" version="22.0.8">
+  <diagram id="MCD1" name="MCD Billetterie">
+    <mxGraphModel dx="1280" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- User -->
+        <mxCell id="user" value="User&#xa;— id (PK) : bigint&#xa;— email : varchar (unique)&#xa;— password_hash : varchar&#xa;— first_name : varchar&#xa;— last_name : varchar&#xa;— k_user : varchar (unique)&#xa;— created_at : datetime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="60" width="270" height="170" as="geometry"/>
+        </mxCell>
+
+        <!-- user_roles -->
+        <mxCell id="user_role" value="user_roles&#xa;— user_id (FK) : bigint&#xa;— role : varchar (ADMIN/AGENT/USER)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="270" width="270" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- Offer -->
+        <mxCell id="offer" value="Offer&#xa;— id (PK) : bigint&#xa;— code : varchar (unique)&#xa;— name : varchar&#xa;— description : varchar&#xa;— price_cents : int&#xa;— seats : int&#xa;— active : boolean" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="880" y="60" width="270" height="170" as="geometry"/>
+        </mxCell>
+
+        <!-- Order -->
+        <mxCell id="order" value="Order&#xa;— id (PK) : bigint&#xa;— user_id (FK) : bigint&#xa;— purchase_key : varchar (unique)&#xa;— created_at : datetime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="410" y="60" width="300" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- Ticket -->
+        <mxCell id="ticket" value="Ticket&#xa;— id (PK) : bigint&#xa;— order_id (FK) : bigint&#xa;— offer_id (FK) : bigint&#xa;— final_key : varchar (unique)&#xa;— consumed_at : datetime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="430" y="240" width="280" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- OtpCode (optionnel) -->
+        <mxCell id="otp" value="OtpCode (optionnel)&#xa;— id (PK) : bigint&#xa;— email : varchar&#xa;— code : varchar&#xa;— expires_at : datetime&#xa;— consumed_at : datetime (nullable)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="880" y="270" width="300" height="140" as="geometry"/>
+        </mxCell>
+
+        <!-- Edges -->
+        <!-- User 1 - n Order -->
+        <mxCell id="e_user_order" edge="1" parent="1" source="user" target="order" style="endArrow=block;endFill=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="330" y="125"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_user_order_1" value="1" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#ffffff;" vertex="1" parent="e_user_order">
+          <mxGeometry x="-0.8" y="0.1" width="20" height="20" relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_user_order_n" value="N" style="text;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#ffffff;" vertex="1" parent="e_user_order">
+          <mxGeometry x="0.8" y="-0.1" width="20" height="20" relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Order 1 - n Ticket -->
+        <mxCell id="e_order_ticket" edge="1" parent="1" source="order" target="ticket" style="endArrow=block;endFill=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="200"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_order_ticket_1" value="1" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#ffffff;" vertex="1" parent="e_order_ticket">
+          <mxGeometry x="-0.8" y="-0.2" width="20" height="20" relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_order_ticket_n" value="N" style="text;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#ffffff;" vertex="1" parent="e_order_ticket">
+          <mxGeometry x="0.8" y="0.1" width="20" height="20" relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Offer 1 - n Ticket -->
+        <mxCell id="e_offer_ticket" edge="1" parent="1" source="offer" target="ticket" style="endArrow=block;endFill=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="300"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_offer_ticket_1" value="1" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#ffffff;" vertex="1" parent="e_offer_ticket">
+          <mxGeometry x="-0.8" y="-0.2" width="20" height="20" relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_offer_ticket_n" value="N" style="text;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#ffffff;" vertex="1" parent="e_offer_ticket">
+          <mxGeometry x="0.8" y="0.1" width="20" height="20" relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- User 1 - n user_roles -->
+        <mxCell id="e_user_roles" edge="1" parent="1" source="user" target="user_role" style="endArrow=block;endFill=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="240"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_user_roles_1" value="1" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#ffffff;" vertex="1" parent="e_user_roles">
+          <mxGeometry x="-0.8" y="-0.2" width="20" height="20" relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_user_roles_n" value="N" style="text;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#ffffff;" vertex="1" parent="e_user_roles">
+          <mxGeometry x="0.8" y="0.1" width="20" height="20" relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- User 1 - n OtpCode (optionnel, via email) -->
+        <mxCell id="e_user_otp" edge="1" parent="1" source="user" target="otp" style="dashed=1;endArrow=block;endFill=1;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="140"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_user_otp_1" value="1" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#ffffff;" vertex="1" parent="e_user_otp">
+          <mxGeometry x="-0.8" y="-0.2" width="20" height="20" relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="lbl_user_otp_n" value="N (par email)" style="text;html=1;align=right;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=#ffffff;" vertex="1" parent="e_user_otp">
+          <mxGeometry x="0.6" y="0.1" width="100" height="20" relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
