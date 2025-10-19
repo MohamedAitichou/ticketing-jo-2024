@@ -84,8 +84,8 @@ public class SecurityConfig {
 
         cors.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "http://127.0.0.1:5173"
-                // "https://ton-front.vercel.app"
+                "http://127.0.0.1:5173",
+                "https://ticketing-front.onrender.com"
         ));
 
         cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
