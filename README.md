@@ -1,5 +1,5 @@
 # ticketing-jo-2024
-Projet de billetterie Java/React pour le Bloc 3 Studi
+Projet de billetterie Java/React pour le Bloc 3 Studi : https://ticketing-jo-2024-2.onrender.com/
 
 # 🎟️ Billetterie JO 2024
 
