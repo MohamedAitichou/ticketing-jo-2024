@@ -17,7 +17,7 @@ public class AdminStatsController {
     private final TicketRepository tickets;
 
     @GetMapping("/sales")
-    @PreAuthorize("hasRole('ADMIN')") // <-- protège la route
+    @PreAuthorize("hasRole('ADMIN')") //
     public AdminSalesResponse sales() {
         List<SalesStat> list = tickets.findSalesByOffer();
         long total = list.stream().mapToLong(SalesStat::ticketsSold).sum();

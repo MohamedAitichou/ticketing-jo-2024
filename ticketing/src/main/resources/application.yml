@@ -25,3 +25,4 @@ app:
   output:
     ansi:
       enabled: ALWAYS
+  seed: true
